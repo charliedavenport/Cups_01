@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour {
 	public Rigidbody leftHeldObj;
 	public Rigidbody rightHeldObj;
 
+	public Rigidbody ball;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -40,19 +42,28 @@ public class PlayerController : MonoBehaviour {
 		float leftTrigger = SteamVR_Controller.Input(leftIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
 		float rightTrigger = SteamVR_Controller.Input(rightIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
 
+		bool a_btn = SteamVR_Controller.Input(rightIndex).GetPress(Valve.VR.EVRButtonId.k_EButton_A);
+
+		//reset ball with a button
+		if (a_btn) {
+			ball.transform.position = new Vector3(0.024f, 1.177f, 0.414f);
+			ball.velocity = new Vector3(0f, 0f, 0f);
+			
+		}
+
 		if (leftHand.intersected != null && leftTrigger > 0.2f) {
 			// pick up left
 			leftHeldObj = leftHand.intersected;
 		}
+		if (rightHand.intersected != null && rightTrigger > 0.2f) {
+			// pick up right
+			rightHeldObj = rightHand.intersected;
+		}
+
 		if (leftHeldObj != null && leftTrigger <= 0.2f) {
 			// release left object
 			leftHeldObj.velocity = SteamVR_Controller.Input(leftIndex).velocity;
 			leftHeldObj = null;
-		}
-
-		if (rightHand.intersected != null && rightTrigger > 0.2f) {
-			// pick up right
-			rightHeldObj = rightHand.intersected;
 		}
 		if (rightHeldObj != null && rightTrigger <= 0.2f) {
 			// release right object
