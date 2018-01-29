@@ -372,9 +372,9 @@ MonoBehaviour:
   m_isRotationLocked: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -0.027770909, y: 0.9765625, z: 1.1077347}
+    m_Target: {x: 0.11373977, y: 0.67578125, z: -0.19529691}
     speed: 2
-    m_Value: {x: -0.027770909, y: 0.9765625, z: 1.1077347}
+    m_Value: {x: 0.11373977, y: 0.67578125, z: -0.19529691}
   m_RenderMode: 0
   m_ValidateTrueMetals: 0
   m_SceneViewState:
@@ -398,13 +398,13 @@ MonoBehaviour:
       speed: 2
       m_Value: 0
   m_Rotation:
-    m_Target: {x: 0.13423629, y: -0.56433535, z: 0.093620084, w: 0.80916196}
+    m_Target: {x: 0.28573975, y: 0.23686114, z: -0.07311341, w: 0.9256918}
     speed: 2
-    m_Value: {x: 0.1342362, y: -0.5643349, z: 0.09362002, w: 0.80916137}
+    m_Value: {x: 0.28573957, y: 0.236861, z: -0.07311337, w: 0.92569125}
   m_Size:
-    m_Target: 1.6735326
+    m_Target: 1.6504357
     speed: 2
-    m_Value: 1.6735326
+    m_Value: 1.6504357
   m_Ortho:
     m_Target: 1
     speed: 2
@@ -472,9 +472,9 @@ MonoBehaviour:
   m_PersistentViewDataDictionary: {fileID: 0}
   m_TreeViewState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: 
-    m_LastClickedID: 0
-    m_ExpandedIDs: 9cfbffff00000000
+    m_SelectedIDs: f42d0000
+    m_LastClickedID: 11764
+    m_ExpandedIDs: 9cfbffff00000000162e0000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -536,18 +536,18 @@ MonoBehaviour:
     m_ShowAllHits: 0
     m_SearchArea: 0
     m_Folders:
-    - Assets
+    - Assets/Materials
   m_ViewMode: 1
   m_StartGridSize: 64
   m_LastFolders:
-  - Assets
+  - Assets/Materials
   m_LastFoldersGridSize: -1
   m_LastProjectPath: C:\Users\vel\Documents\GitHub\Cups_01
   m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 0}
-    m_SelectedIDs: cc280000
-    m_LastClickedID: 10444
+    m_SelectedIDs: 442b0000
+    m_LastClickedID: 11076
     m_ExpandedIDs: 00000000cc280000c62c000000ca9a3bffffff7f
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -603,7 +603,7 @@ MonoBehaviour:
   m_ListAreaState:
     m_SelectedInstanceIDs: 
     m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 0
+    m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: 56250000
     m_RenameOverlay:
       m_UserAcceptedRename: 0

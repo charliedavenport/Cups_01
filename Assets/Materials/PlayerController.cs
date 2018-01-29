@@ -46,7 +46,7 @@ public class PlayerController : MonoBehaviour {
 
 		//reset ball with a button
 		if (a_btn) {
-			ball.transform.position = new Vector3(0.024f, 1.177f, 0.414f);
+			ball.transform.position = new Vector3(-0.5289996f, 1.177f, -0.05564839f);
 			ball.velocity = new Vector3(0f, 0f, 0f);
 			
 		}
