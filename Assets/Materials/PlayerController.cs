@@ -17,6 +17,9 @@ public class PlayerController : MonoBehaviour {
 
 	public Rigidbody ball;
 
+	float saveMaxLeft;
+	float saveMaxRight;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -39,47 +42,73 @@ public class PlayerController : MonoBehaviour {
 		int leftIndex = (int)leftController.GetComponent<SteamVR_TrackedObject>().index;
 		int rightIndex = (int)rightController.GetComponent<SteamVR_TrackedObject>().index;
 
-		float leftTrigger = SteamVR_Controller.Input(leftIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
-		float rightTrigger = SteamVR_Controller.Input(rightIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
+		// RIGHT HAND
+		if (rightIndex >= 0) {
+			float rightTrigger = SteamVR_Controller.Input(rightIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
+			bool a_btn = SteamVR_Controller.Input(rightIndex).GetPress(Valve.VR.EVRButtonId.k_EButton_A);
+			if (a_btn) {
+				ball.transform.position = new Vector3(-0.5289996f, 1.177f, -0.05564839f);
+				ball.velocity = new Vector3(0f, 0f, 0f);
+			}
+				
+			if (rightHand.intersected != null && rightTrigger > 0.2f) {
+				// pick up right
+				rightHeldObj = rightHand.intersected;
+				saveMaxRight = rightHand.intersected.maxAngularVelocity;
+				rightHand.intersected.maxAngularVelocity = Mathf.Infinity;
+			}
 
-		bool a_btn = SteamVR_Controller.Input(rightIndex).GetPress(Valve.VR.EVRButtonId.k_EButton_A);
+			if (rightHeldObj != null && rightTrigger <= 0.2f) {
+				// release right object
+				rightHeldObj.velocity = SteamVR_Controller.Input(rightIndex).velocity;
+				rightHeldObj.angularVelocity = SteamVR_Controller.Input(rightIndex).angularVelocity;
+				rightHeldObj.maxAngularVelocity = saveMaxRight;
+				rightHeldObj = null;
+			}
+				
+			if (rightHeldObj != null) {
+				// force object to follow right hand
+				rightHeldObj.velocity = (rightHand.transform.position - rightHeldObj.position) / Time.deltaTime;
+				// update rotation
+				float angle;
+				Vector3 axis;
+				Quaternion q = rightHand.transform.rotation * Quaternion.Inverse (rightHeldObj.rotation);
+				q.ToAngleAxis (out angle, out axis);
+				rightHeldObj.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
+			}
 
-		//reset ball with a button
-		if (a_btn) {
-			ball.transform.position = new Vector3(-0.5289996f, 1.177f, -0.05564839f);
-			ball.velocity = new Vector3(0f, 0f, 0f);
-			
-		}
+		} // RIGHT HAND
 
-		if (leftHand.intersected != null && leftTrigger > 0.2f) {
-			// pick up left
-			leftHeldObj = leftHand.intersected;
-		}
-		if (rightHand.intersected != null && rightTrigger > 0.2f) {
-			// pick up right
-			rightHeldObj = rightHand.intersected;
-		}
+		// LEFT HAND
+		if (leftIndex >= 0) {
+			float leftTrigger = SteamVR_Controller.Input(leftIndex).GetAxis(Valve.VR.EVRButtonId.k_EButton_SteamVR_Trigger).magnitude;
 
-		if (leftHeldObj != null && leftTrigger <= 0.2f) {
-			// release left object
-			leftHeldObj.velocity = SteamVR_Controller.Input(leftIndex).velocity;
-			leftHeldObj = null;
-		}
-		if (rightHeldObj != null && rightTrigger <= 0.2f) {
-			// release right object
-			rightHeldObj.velocity = SteamVR_Controller.Input(rightIndex).velocity;
-			rightHeldObj = null;
-		}
+			if (leftHand.intersected != null && leftTrigger > 0.2f) {
+				// pick up left
+				leftHeldObj = leftHand.intersected;
+			}
+				
+			if (leftHeldObj != null && leftTrigger <= 0.2f) {
+				// release left object
+				leftHeldObj.velocity = SteamVR_Controller.Input(leftIndex).velocity;
+				leftHeldObj.angularVelocity = SteamVR_Controller.Input(leftIndex).angularVelocity;
+				leftHeldObj = null;
+			}
 
-		if (leftHeldObj != null) {
-			// force object to follow left hand
-			leftHeldObj.velocity = (leftHand.transform.position - leftHeldObj.position) / Time.deltaTime;
-			leftHeldObj.rotation = leftHand.transform.rotation;
-		}
-		if (rightHeldObj != null) {
-			// force object to follow right hand
-			rightHeldObj.velocity = (rightHand.transform.position - rightHeldObj.position) / Time.deltaTime;
-			rightHeldObj.rotation = rightHand.transform.rotation;
-		}
-	}
+			if (leftHeldObj != null) {
+				// force object to follow left hand
+				leftHeldObj.velocity = (leftHand.transform.position - leftHeldObj.position) / Time.deltaTime;
+				// update rotation
+				float angle;
+				Vector3 axis;
+				Quaternion q = leftHand.transform.rotation * Quaternion.Inverse (leftHeldObj.rotation);
+				q.ToAngleAxis (out angle, out axis);
+				leftHeldObj.angularVelocity = axis * angle * Mathf.Deg2Rad / Time.deltaTime;
+			}
+
+		} // LEFT HAND
+
+	} // LateUpdate
+
+
 }
