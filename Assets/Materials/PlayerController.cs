@@ -20,9 +20,22 @@ public class PlayerController : MonoBehaviour {
 	float saveMaxLeft;
 	float saveMaxRight;
 
+	float[,] cup_positions; // stores the starting position of the cups
+	Quaternion[] cup_rotations; // stores the starting rotation of the cups
+
 	// Use this for initialization
 	void Start () {
-		
+		//save cups transforms
+		cup_positions = new float[6, 3];
+		cup_rotations = new Quaternion[6];
+		for (int i=0; i<6; i++) {
+			Transform trans = cups.GetChild(i).transform;
+			cup_positions[i, 0] = trans.position.x;
+			cup_positions[i, 1] = trans.position.y;
+			cup_positions[i, 2] = trans.position.z;
+
+			cup_rotations[i] = cups.GetChild(i).transform.rotation;
+		}
 	}
 	
 	// Update is called once per frame
@@ -49,6 +62,19 @@ public class PlayerController : MonoBehaviour {
 			if (a_btn) {
 				ball.transform.position = new Vector3(-0.5289996f, 1.177f, -0.05564839f);
 				ball.velocity = new Vector3(0f, 0f, 0f);
+			}
+			
+			// reset cups
+			bool b_btn = SteamVR_Controller.Input(rightIndex).GetPress(Valve.VR.EVRButtonId.k_EButton_ApplicationMenu);
+			if (b_btn) {
+				Vector3 pos;
+				for (int i=0; i<6; i++) {
+					pos = new Vector3(cup_positions[i, 0], cup_positions[i, 1], cup_positions[i, 2]);
+					cups.GetChild(i).transform.position = pos;
+					cups.GetChild(i).transform.rotation = cup_rotations[i];
+					cups.GetChild(i).gameObject.GetComponent<Rigidbody>().velocity = Vector3.zero;
+					cups.GetChild(i).gameObject.GetComponent<Rigidbody>().angularVelocity = Vector3.zero;
+				}
 			}
 				
 			if (rightHand.intersected != null && rightTrigger > 0.2f) {
